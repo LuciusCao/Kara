@@ -1,5 +1,6 @@
 mp3/*.mp3
 wav/*.wav
 /.python-version
+/tmp
 
 .DS_Store
