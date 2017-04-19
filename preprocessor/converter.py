@@ -12,6 +12,7 @@ class Converter():
         self._check_path()
 
         self.files = os.listdir(self.origin_path)
+        self.targets = os.listdir(self.target_path)
         self._clean_files()
 
         self.sample_rate = sample_rate
@@ -26,6 +27,12 @@ class Converter():
 
     def _clean_files(self):
         self.files = [item[:-4] for item in self.files if item[-4:] == '.mp3']
+        self.targets = [item[:-4] for item in self.targets if item[-4:] == '.wav']
+        self.files = [item for item in self.files if item not in self.targets]
+        if self.files:
+            print('files:\n {}\n to be converted'.format(self.files))
+        else:
+            print('no files require to be converted')
 
     def mp3_to_wav(self, filename):
         origin_file = self.origin_path + '/' + filename + '.mp3'
