@@ -1,4 +1,4 @@
-from converter import converter
+from preprocessor.converter import Converter
 
-conv = converter.Converter('./mp3', './tmp', './wav')
+conv = Converter('./mp3', './tmp', './wav')
 conv.convert_directory()
