@@ -1,10 +1,11 @@
 from helpers import *
+import numpy as np
+import os
 
 if __name__ == '__main__':
     path = config_path('./dataset')
     target_files = calc_files_to_convert(path)
-    if target_files:
-        print('%d files to be converted'%(len(target_files)))
-    else:
-        print('no files to be converted')
+    input('%d files to be converted, press ENTER to continue'%(len(target_files)))
+    
+    convert_all(target_files, path) 
 
