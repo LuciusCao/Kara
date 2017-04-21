@@ -1,5 +1,6 @@
 *.mp3
 *.wav
+*.swp
 /.python-version
 
 __pycache__/
