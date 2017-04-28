@@ -66,7 +66,8 @@ def convert_mp3_to_wav(mp3_filename, path, sample_rate=44100):
     check and add ext on if not exists
     - path: dictionary
     - sample_rate: integer, kHz
-    return one
+    return 
+    - None
     '''
     if mp3_filename[-4:] == '.mp3':
         filename = mp3_filename[:-4]
@@ -84,18 +85,42 @@ def convert_mp3_to_wav(mp3_filename, path, sample_rate=44100):
 
 
 def convert_all(target_list, path):
+    '''
+    convert target files to .wav and return the number of files converted
+    arguement
+    - target_list: list of path
+    - path: dictionary
+    return
+    - i: integer that stands for how many files are converted
+    '''
+    i = 0
     for each_mp3 in target_list:
         convert_mp3_to_wav(each_mp3, path)
-
+        i += 1
+    return i
 
 def read_wav_as_np(filename):
+    '''
+    read a wav file as an numpy array
+    arguement
+    - filename, path to wav file
+    return
+    - np_arr, numpy array of the wav file
+    '''
     data = wav.read(filename)
-    print(data[1])
     np_arr = data[1].astype('float32') / 32767.0  # Normalize 16-bit input to [-1, 1] range
-    return np_arr, data[0]
+    return np_arr
 
 
 def write_np_as_wav(X, sample_rate, filename):
+    '''
+    write a numpy array as a wav file
+    arguement
+    - X, np array
+    - sample_rate, int use 44100 if the original wave file is encoded such way
+    - filename, path to save the wav file
+    return None
+    '''
     Xnew = X * 32767.0
     Xnew = Xnew.astype('int16')
     wav.write(filename, sample_rate, Xnew)
@@ -103,7 +128,6 @@ def write_np_as_wav(X, sample_rate, filename):
 
 
 def convert_np_audio_to_sample_blocks(song_np, block_size):
-
     block_lists = []
     total_samples = song_np.shape[0]
     num_samples_so_far = 0
@@ -125,7 +149,6 @@ def convert_sample_blocks_to_np_audio(blocks):
 
 def time_blocks_to_fft_blocks(blocks_time_domain, count):
     fft_blocks = []
-    plot_block=[]
     amplitude = []
     for block in blocks_time_domain:
         fft_block = np.fft.fft(block)
