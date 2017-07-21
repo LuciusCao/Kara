@@ -10,7 +10,7 @@ def config_path(root):
     setup the necessary path for the project
     arguement
     - root: string, root directory of the project
-    return 
+    return
     - path: dictionary, that has folder names as keys
     and their abs path as values
     '''
@@ -47,7 +47,7 @@ def calc_files_to_convert(path):
     '''
     calculate what files need to be converted to avoid duplication
     arguement
-    - path: path dictionary that holds folder names as keys 
+    - path: path dictionary that holds folder names as keys
     and their abs path as values
     return
     - target_files: list of files
@@ -66,7 +66,7 @@ def convert_mp3_to_wav(mp3_filename, path, sample_rate=44100):
     check and add ext on if not exists
     - path: dictionary
     - sample_rate: integer, kHz
-    return 
+    return
     - None
     '''
     if mp3_filename[-4:] == '.mp3':
@@ -76,7 +76,7 @@ def convert_mp3_to_wav(mp3_filename, path, sample_rate=44100):
     mp3_file_path = path['mp3'] + '/' + filename + '.mp3'
     tmp_file_path = path['tmp'] + '/' + filename + '.mp3'
     wav_file_path = path['wav'] + '/' + filename + '.wav'
-    
+
     cmd = 'lame -a -m m %s %s'%(quote(mp3_file_path), quote(tmp_file_path))
     os.system(cmd)
     cmd = 'lame --decode %s %s --resample %s'%(quote(tmp_file_path), quote(wav_file_path), str(sample_rate))
@@ -99,6 +99,7 @@ def convert_all(target_list, path):
         i += 1
     return i
 
+
 def read_wav_as_np(filename):
     '''
     read a wav file as an numpy array
@@ -109,7 +110,7 @@ def read_wav_as_np(filename):
     '''
     data = wav.read(filename)
     np_arr = data[1].astype('float32') / 32767.0  # Normalize 16-bit input to [-1, 1] range
-    return np_arr
+    return np_arr, data[0]
 
 
 def write_np_as_wav(X, sample_rate, filename):
@@ -237,7 +238,7 @@ def convert_nptensor_to_wav_files_verify(tensor, indices, filename, useTimeDomai
             chunks.append(tensor[i][x])
     save_generated_example(filename + 'merged' + '.wav', chunks, useTimeDomain=useTimeDomain)
 
-    
+
 def convert_nptensor_to_wav_files(tensor, indices, filename, useTimeDomain=False):
     num_seqs = tensor.shape[1]
     for i in indices:
