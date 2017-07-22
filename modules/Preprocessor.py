@@ -14,7 +14,7 @@ class Preprocessor:
         self.sample_rate = sample_rate
         self.target_files = self.calc_files_to_convert()
 
-    def get_list_of_file(self, fmt):
+    def _get_list_of_files(self, fmt):
         ext_len = len(fmt) + 1
         ext = '.%s'%(fmt)
         files_from_fmt = os.listdir(self.path[fmt])
@@ -22,11 +22,11 @@ class Preprocessor:
         return fmt_files
 
     def calc_files_to_convert(self):
-        wav_files = self.get_list_of_file('wav')
-        mp3_files = self.get_list_of_file('mp3')
+        wav_files = self._get_list_of_files('wav')
+        mp3_files = self._get_list_of_files('mp3')
         return [item for item in mp3_files if item not in wav_files]
 
-    def convert_mp3_to_wav(self, filename):
+    def _convert_mp3_to_wav(self, filename):
         mp3_file_path = '%s/%s.mp3'%(path['mp3'], filename)
         tmp_file_path = '%s/%s.mp3'%(path['tmp'], filename)
         wav_file_path = '%s/%s.wav'%(path['wav'], filename)
@@ -39,7 +39,7 @@ class Preprocessor:
     def convert_all(self):
         i = 0
         for each_mp3 in self.target_files:
-            self.convert_mp3_to_wav(each_mp3)
+            self._convert_mp3_to_wav(each_mp3)
             i += 1
         print (i, 'files have been converted')
         return i
