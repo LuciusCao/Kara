@@ -2,6 +2,9 @@ import os
 from pipes import quote
 
 class Preprocessor:
+    '''
+    Read dataset path and convert all mp3 files to wav files
+    '''
     def __init__(self, root_path, sample_rate=44100):
         self.path = {
             'mp3': os.path.abspath(root_path+'/mp3'),
