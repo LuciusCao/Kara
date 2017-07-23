@@ -11,7 +11,8 @@ class Preprocessor:
         self.path = {
             'mp3': os.path.abspath(dataset_path+'/mp3'),
             'tmp': os.path.abspath(dataset_path+'/tmp'),
-            'wav': os.path.abspath(dataset_path+'/wav')
+            'wav': os.path.abspath(dataset_path+'/wav'),
+            'output' : os.path.abspath(dataset_path+'/output')
         }
         self._path_checker()
         self.sample_rate = sample_rate

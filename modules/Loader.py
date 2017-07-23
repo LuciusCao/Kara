@@ -30,6 +30,7 @@ class Loader:
         return data
 
     def _fourier_transform(self, data):
+        # plausible need confirm
         row, col = data.shape
         fft_data = np.zeros((row, col*2))
         for i in range(row):
