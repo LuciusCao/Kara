@@ -1,4 +1,4 @@
-from modules import Preprocessor
+from modules.Preprocessor import Preprocessor
 import os
 
 if __name__ == '__main__':
