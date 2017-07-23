@@ -10,7 +10,6 @@ class Writer:
         original_data = data * 32767.0
         original_data.astype('int16')
         wav.write(filepath, self.sample_rate, original_data)
-        print('file %s has been written' % (filepath))
         return
 
     def convert_seq_to_np_audio(self, seq_data):
