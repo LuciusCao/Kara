@@ -5,6 +5,8 @@ from pipes import quote
 class Preprocessor:
     '''
     Read dataset path and convert all mp3 files to wav files
+    make sure your dateset directory will have three folders named exactly
+    mp3, tmp, and wav. This should be improved in the future
     '''
     def __init__(self, dataset_path, sample_rate=44100):
         self.path = {
