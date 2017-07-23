@@ -5,10 +5,10 @@ import numpy as np
 class Loader:
     def __init__(self, filepath, seq_length=44100):
         self.filepath = filepath
-        self.seq_length = seq_length
+        self._seq_length = seq_length
         self.data, self.sample_rate = self._read_wav_to_np(self.filepath)
         self.sequences = self._convert_np_audio_to_seq(self.data,
-                                                       self.seq_length)
+                                                       self._seq_length)
         self.fourier_sequences = self._fourier_transform(self.sequences)
 
     def _read_wav_to_np(self, filename):
