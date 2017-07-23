@@ -13,7 +13,7 @@ class Preprocessor:
             'wav': os.path.abspath(root_path+'/wav')
         }
         self.sample_rate = sample_rate
-        self.target_files = self.calc_files_to_convert()
+        self.target_files = self._calc_files_to_convert()
 
     def _get_list_of_files(self, fmt):
         ext_len = len(fmt) + 1
@@ -23,7 +23,7 @@ class Preprocessor:
                      if item[-ext_len:] == ext]
         return fmt_files
 
-    def calc_files_to_convert(self):
+    def _calc_files_to_convert(self):
         wav_files = self._get_list_of_files('wav')
         mp3_files = self._get_list_of_files('mp3')
         return [item for item in mp3_files if item not in wav_files]
