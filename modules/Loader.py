@@ -3,12 +3,20 @@ import numpy as np
 
 
 class Loader:
-    def read_wav_to_np(filename):
+    def __init__(self, filepath, seq_length=44100):
+        self.filepath = filepath
+        self.seq_length = seq_length
+        self.data, self.sample_rate = self._read_wav_to_np(self.filepath)
+        self.sequences = self._convert_np_audio_to_seq(self.data,
+                                                       self.seq_length)
+        self.fourier_sequences = self._fourier_transform(self.sequences)
+
+    def _read_wav_to_np(self, filename):
         data = wav.read(filename)
         np_arr = data[1].astype('float32') / 32767.0
         return np_arr, data[0]
 
-    def convert_np_audio_to_seq(music_arr, seq_length):
+    def _convert_np_audio_to_seq(self, music_arr, seq_length):
         num_seqs = len(music_arr) // seq_length
         data = np.zeros((num_seqs, seq_length))
         cur_pointer = 0
@@ -21,7 +29,7 @@ class Loader:
             cur_pointer += 1
         return data
 
-    def fourier_transform(data):
+    def _fourier_transform(self, data):
         row, col = data.shape
         fft_data = np.zeros((row, col*2))
         for i in range(row):
