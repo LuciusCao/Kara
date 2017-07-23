@@ -5,8 +5,7 @@ from pipes import quote
 class Preprocessor:
     '''
     Read dataset path and convert all mp3 files to wav files
-    make sure your dateset directory will have three folders named exactly
-    mp3, tmp, and wav. This should be improved in the future
+    make sure your dateset directory will have at least a mp3 folder
     '''
     def __init__(self, dataset_path, sample_rate=44100):
         self.path = {
@@ -14,8 +13,15 @@ class Preprocessor:
             'tmp': os.path.abspath(dataset_path+'/tmp'),
             'wav': os.path.abspath(dataset_path+'/wav')
         }
+        self._path_checker()
         self.sample_rate = sample_rate
         self.target_files = self._calc_files_to_convert()
+
+    def _path_checker(self):
+        for v in self.path.values():
+            if not os.path.exists(v):
+                os.mkdir(v)
+        return
 
     def _get_list_of_files(self, fmt):
         ext_len = len(fmt) + 1
