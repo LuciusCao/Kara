@@ -1,6 +1,7 @@
 import os
 from pipes import quote
 
+
 class Preprocessor:
     '''
     Read dataset path and convert all mp3 files to wav files
@@ -16,9 +17,10 @@ class Preprocessor:
 
     def _get_list_of_files(self, fmt):
         ext_len = len(fmt) + 1
-        ext = '.%s'%(fmt)
+        ext = '.%s' % (fmt)
         files_from_fmt = os.listdir(self.path[fmt])
-        fmt_files = [item[:-ext_len] for item in files_from_fmt if item[-ext_len:] == ext ]
+        fmt_files = [item[:-ext_len] for item in files_from_fmt
+                     if item[-ext_len:] == ext]
         return fmt_files
 
     def calc_files_to_convert(self):
@@ -27,12 +29,15 @@ class Preprocessor:
         return [item for item in mp3_files if item not in wav_files]
 
     def _convert_mp3_to_wav(self, filename):
-        mp3_file_path = '%s/%s.mp3'%(path['mp3'], filename)
-        tmp_file_path = '%s/%s.mp3'%(path['tmp'], filename)
-        wav_file_path = '%s/%s.wav'%(path['wav'], filename)
-        cmd = 'lame -a -m m %s %s'%(quote(mp3_file_path), quote(tmp_file_path))
+        mp3_file_path = '%s/%s.mp3' % (self.path['mp3'], filename)
+        tmp_file_path = '%s/%s.mp3' % (self.path['tmp'], filename)
+        wav_file_path = '%s/%s.wav' % (self.path['wav'], filename)
+        cmd = 'lame -a -m m %s %s' % (quote(mp3_file_path),
+                                      quote(tmp_file_path))
         os.system(cmd)
-        cmd = 'lame --decode %s %s --resample %s'%(quote(tmp_file_path), quote(wav_file_path), str(self.sample_rate))
+        cmd = 'lame --decode %s %s --resample %s' % (quote(tmp_file_path),
+                                                     quote(wav_file_path),
+                                                     str(self.sample_rate))
         os.system(cmd)
         return
 
