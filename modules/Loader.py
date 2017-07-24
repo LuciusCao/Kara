@@ -3,7 +3,7 @@ import numpy as np
 
 
 class Loader:
-    def __init__(self, filepath, seq_length=44100):
+    def __init__(self, filepath, seq_length):
         self.filepath = filepath
         self._seq_length = seq_length
         self.data, self.sample_rate = self._read_wav_to_np(self.filepath)
@@ -38,3 +38,8 @@ class Loader:
             target_seq = np.concatenate((np.real(fft_seq), np.imag(fft_seq)))
             fft_data[i] = target_seq
         return fft_data
+
+    def load_training_data(self, data_set):
+        train_x = data_set
+        train_y = train_x[1:]
+        train_y.append(np.zeros(self._seq_length))
