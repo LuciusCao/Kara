@@ -12,19 +12,19 @@ class Writer:
         wav.write(filepath, self.sample_rate, original_data)
         return
 
-    def convert_seq_to_np_audio(self, seq_data):
-        data = np.concatenate(seq_data)
+    def convert_block_to_np_audio(self, block_data):
+        data = np.concatenate(block_data)
         return data
 
-    def de_fourier_transform(self, fourier_sequences):
-        row, col = fourier_sequences.shape
+    def de_fourier_transform(self, fourier_blocks):
+        row, col = fourier_blocks.shape
         num_elems = col // 2
-        original_sequence = np.zeros((row, num_elems))
+        original_block = np.zeros((row, num_elems))
         for i in range(row):
-            seq = fourier_sequences[i, :]
-            real = seq[:num_elems]
-            imag = seq[num_elems:]
-            complex_seq = real + 1.0j * imag
-            de_fourier_seq = np.fft.ifft(complex_seq)
-            original_sequence[i, :] = de_fourier_seq
-        return original_sequence
+            block = fourier_blocks[i, :]
+            real = block[:num_elems]
+            imag = block[num_elems:]
+            complex_block = real + 1.0j * imag
+            de_fourier_block = np.fft.ifft(complex_block)
+            original_block[i, :] = np.real(de_fourier_block)
+        return original_block

@@ -13,6 +13,6 @@ if __name__ == '__main__':
         2048
     )
     writer = Writer()
-    org_seq = writer.de_fourier_transform(loader.fourier_sequences)
-    data_from_writer = writer.convert_seq_to_np_audio(org_seq)
-    data_from_loader = writer.convert_seq_to_np_audio(loader.sequences)
+    # org_seq = writer.de_fourier_transform(loader.fourier_sequences)
+    # data_from_writer = writer.convert_seq_to_np_audio(org_seq)
+    # data_from_loader = writer.convert_seq_to_np_audio(loader.sequences)
