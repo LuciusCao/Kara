@@ -15,7 +15,7 @@ if __name__ == '__main__':
     preprocessor.convert_all()
     loader = Loader(
         os.path.abspath('./dataset/wav/a_hisa - Town of Windmill.wav'),
-        2048, 256
+        2048, 64
     )
     x, y, shape = loader.load_training_data()
     writer = Writer()
