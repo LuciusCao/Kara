@@ -22,4 +22,4 @@ if __name__ == '__main__':
     # experiment code below
     model = Sequential()
 
-    model.compile(loss='mean_absolute_error', optimizer='rmsprop')
+    # model.compile(loss='mean_absolute_error', optimizer='rmsprop')

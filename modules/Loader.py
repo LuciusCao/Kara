@@ -55,9 +55,9 @@ class Loader:
         num_examples = len(train_x)
         num_dims_out = self.block_size * 2
         shape = (num_examples, self.max_seq_len, num_dims_out)
+        train_x = np.array(train_x)
+        train_y = np.array(train_y)
         return train_x, train_y, shape
-        # train_x = np.array(train_x)
-        # train_y = np.array(train_y)
         # mean_x = np.mean(np.mean(train_x, axis=0), axis=0)
         # std_x = np.sqrt(
             # np.mean(np.mean((train_x - mean_x) ** 2, axis=0), axis=0))
