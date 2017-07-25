@@ -3,11 +3,12 @@ import numpy as np
 
 
 class Loader:
-    def __init__(self, filepath, block_size, max_seq_len):
+    def __init__(self, filepath, step, maxlen):
         self.filepath = filepath
-        self.max_seq_len = max_seq_len
-        self.block_size = block_size
+        self.maxlen = maxlen
+        self.step = step
         self.raw_data, self.sample_rate = self._read_wav_to_np(self.filepath)
+        self.fft_seq_length = self.step * 2
 
     def _read_wav_to_np(self, filename):
         data = wav.read(filename)
@@ -15,14 +16,14 @@ class Loader:
         return np_arr, data[0]
 
     def _convert_np_audio_to_block(self, music_arr):
-        num_blocks = len(music_arr) // self.block_size
+        num_blocks = len(music_arr) // self.step
         data = []
         cur_pointer = 0
         while cur_pointer < num_blocks:
-            block = music_arr[cur_pointer*self.block_size:
-                              (cur_pointer+1)*self.block_size]
-            if block.shape[0] < self.block_size:
-                padding = np.zeros((self.block_size - block.shape[0],))
+            block = music_arr[cur_pointer*self.step:
+                              (cur_pointer+1)*self.step]
+            if block.shape[0] < self.step:
+                padding = np.zeros((self.step - block.shape[0],))
                 block = np.concatenate((block, padding))
             data.append(block)
             cur_pointer += 1
@@ -41,20 +42,19 @@ class Loader:
     def load_training_data(self):
         x = self._convert_np_audio_to_block(self.raw_data)
         y = x[1:]
-        y.append(np.zeros(self.block_size))
+        y.append(np.zeros(self.step))
         fft_x = self._fourier_transform(x)
         fft_y = self._fourier_transform(y)
         cur_seq = 0
         total_seq = len(x)
         train_x = []
         train_y = []
-        while cur_seq + self.max_seq_len < total_seq:
-            train_x.append(fft_x[cur_seq:cur_seq+self.max_seq_len])
-            train_y.append(fft_y[cur_seq:cur_seq+self.max_seq_len])
-            cur_seq += self.max_seq_len
+        while cur_seq + self.maxlen < total_seq:
+            train_x.append(fft_x[cur_seq:cur_seq+self.maxlen])
+            train_y.append(fft_y[cur_seq:cur_seq+self.maxlen])
+            cur_seq += self.maxlen
         num_examples = len(train_x)
-        num_dims_out = self.block_size * 2
-        shape = (num_examples, self.max_seq_len, num_dims_out)
+        shape = (num_examples, self.maxlen, self.fft_seq_length)
         train_x = np.array(train_x)
         train_y = np.array(train_y)
         return train_x, train_y, shape
