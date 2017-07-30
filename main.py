@@ -2,6 +2,8 @@
 #  from modules.Loader import Loader
 #  from modules.Writer import Writer
 #  from modules.Model import build_basic, build_td_basic, build_seq2seq
+from modules.Config import config
+from modules.Parser import parser
 import os
 import argparse
 
@@ -9,37 +11,15 @@ import argparse
 if __name__ == '__main__':
     root_path = os.path.abspath('./dataset')
 
-    parser = argparse.ArgumentParser(prog='kara',
-                                     description='An experiment that trains \
-                                     models to learn to compose music',
-                                     epilog='If you have any trouble feel free \
-                                     to send a ticket on Github, or send email \
-                                     to lucius.cao@gmail.com')
-    subparsers = parser.add_subparsers(metavar='train generate')
-    parser_train = subparsers.add_parser('train',
-                                         description='Training module for the \
-                                         model',
-                                         help='train your model')
-    parser_train.add_argument('--input', type=str,
-                              metavar='dir',
-                              help='specify your input audio directory')
-    parser_generate = subparsers.add_parser('generate',
-                                            help='generate results based on \
-                                            your model')
-    parser_generate.add_argument('--output', type=str, default='out.wav',
-                                 metavar='path',
-                                 help='specify your output directory, \
-                                 default out.wav')
-    parser_generate.add_argument('--length', type=int, default=15,
-                                 metavar='length',
-                                 help='length of output audio in seconds, \
-                                 default 15 seconds')
     args = parser.parse_args()
-    if args.__dict__ == {}:
-        cmd = 'python main.py --help'
-        os.system(cmd)
+    if args.mode == None:
+        parser.print_help()
+    elif args.mode == 'train':
+        print('trainning mode')
+    elif args.mode == 'generate':
+        print('generate mode')
     else:
-        print('args parsed')
+        parser.print_help()
     #  preprocessor = Preprocessor(root_path)
     #  preprocessor.convert_all()
     #  loader = Loader(
