@@ -20,17 +20,20 @@ if __name__ == '__main__':
                                          description='Training module for the \
                                          model',
                                          help='train your model')
-    parser_train.add_argument('input', type=str, metavar='<input_directory>',
+    parser_train.add_argument('--input', type=str,
+                              metavar='dir',
                               help='specify your input audio directory')
     parser_generate = subparsers.add_parser('generate',
                                             help='generate results based on \
                                             your model')
-    parser_generate.add_argument('--output', '-o', type=str, default='out.wav',
-                                 metavar='<output_directory>',
-                                 help='specify your output directory')
+    parser_generate.add_argument('--output', type=str, default='out.wav',
+                                 metavar='path',
+                                 help='specify your output directory, \
+                                 default out.wav')
     parser_generate.add_argument('--length', type=int, default=15,
-                                 metavar='<audio_length>',
-                                 help='length of output audio in seconds')
+                                 metavar='length',
+                                 help='length of output audio in seconds, \
+                                 default 15 seconds')
     args = parser.parse_args()
     if args.__dict__ == {}:
         cmd = 'python main.py --help'
