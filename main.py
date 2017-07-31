@@ -8,9 +8,6 @@ import os
 
 
 if __name__ == '__main__':
-    project_root = config['project_root']
-    dataset_path = os.path.join(project_root, 'dataset')
-
     args = parser.parse_args()
     if args.mode is None:
         parser.print_help()
