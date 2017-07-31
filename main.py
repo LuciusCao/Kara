@@ -1,11 +1,10 @@
-#  from modules.Preprocessor import Preprocessor
-#  from modules.Loader import Loader
-#  from modules.Writer import Writer
-#  from modules.Model import build_basic, build_td_basic, build_seq2seq
-from modules.Config import config
-from modules.Parser import parser
+#  from modules.preprocessor import Preprocessor
+#  from modules.loader import Loader
+#  from modules.writer import Writer
+#  from modules.model import build_basic, build_td_basic, build_seq2seq
+from config import config
+from parser import parser, parser_train, parser_generate
 import os
-import argparse
 
 
 if __name__ == '__main__':

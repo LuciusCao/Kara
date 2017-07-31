@@ -18,12 +18,7 @@ parser_train.add_argument('--input', type=str,
 parser_generate = subparsers.add_parser('generate',
                                         help='generate results based on \
                                         your model')
-parser_generate.add_argument('--output', type=str, default='out.wav',
-                             metavar='path',
-                             help='specify your output directory, \
-                             default out.wav')
 parser_generate.add_argument('--length', type=int, default=15,
                              metavar='length',
                              help='length of output audio in seconds, \
                              default 15 seconds')
-args = parser.parse_args()
