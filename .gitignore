@@ -2,6 +2,7 @@
 *.wav
 *.swp
 *.h5
+*.zip
 /.python-version
 
 __pycache__/

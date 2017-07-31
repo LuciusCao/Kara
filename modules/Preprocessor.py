@@ -12,7 +12,6 @@ class Preprocessor:
             'mp3': os.path.abspath(dataset_path+'/mp3'),
             'tmp': os.path.abspath(dataset_path+'/tmp'),
             'wav': os.path.abspath(dataset_path+'/wav'),
-            'output' : os.path.abspath(dataset_path+'/output')
         }
         self._path_checker()
         self.sample_rate = sample_rate
@@ -29,7 +28,7 @@ class Preprocessor:
         ext = '.%s' % (fmt)
         files_from_fmt = os.listdir(self.path[fmt])
         fmt_files = [item[:-ext_len] for item in files_from_fmt
-                     if item[-ext_len:] == ext]
+                     if item.endswith(ext)]
         return fmt_files
 
     def _calc_files_to_convert(self):
@@ -50,10 +49,19 @@ class Preprocessor:
         os.system(cmd)
         return
 
+    def _remove_tmp(self):
+        for filename in os.listdir(self.path['tmp']):
+            filepath = os.path.join(self.path['tmp'], filename)
+            os.remove(filepath)
+        os.rmdir(self.path['tmp'])
+        del(self.path['tmp'])
+        return
+
     def convert_all(self):
         i = 0
         for each_mp3 in self.target_files:
             self._convert_mp3_to_wav(each_mp3)
             i += 1
         print (i, 'files have been converted')
+        self._remove_tmp()
         return i
