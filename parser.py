@@ -22,3 +22,6 @@ parser_generate.add_argument('--length', type=int, default=15,
                              metavar='length',
                              help='length of output audio in seconds, \
                              default 15 seconds')
+parser_prepare = subparsers.add_parser('prepare',
+                                       help='run this command to prepare your \
+                                       data')
