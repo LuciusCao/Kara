@@ -8,6 +8,9 @@ parser = argparse.ArgumentParser(prog='kara',
                                  to send a ticket on Github, or send email \
                                  to lucius.cao@gmail.com')
 subparsers = parser.add_subparsers(metavar='subcommand', dest='mode')
+parser_prepare = subparsers.add_parser('prepare',
+                                       help='run this command to prepare your \
+                                       data')
 parser_train = subparsers.add_parser('train',
                                      description='Training module for the \
                                      model',
@@ -22,6 +25,3 @@ parser_generate.add_argument('--length', type=int, default=15,
                              metavar='length',
                              help='length of output audio in seconds, \
                              default 15 seconds')
-parser_prepare = subparsers.add_parser('prepare',
-                                       help='run this command to prepare your \
-                                       data')

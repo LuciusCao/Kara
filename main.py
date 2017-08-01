@@ -17,17 +17,17 @@ if __name__ == '__main__':
         preprocessor.convert_all()
     elif args.mode == 'train':
         print('trainning mode')
+        loader = Loader(
+            os.path.abspath('./dataset/wav'),
+            config['timestep'],
+            config['seq_len'],
+        )
+        print('========loading data========')
+        x, y, shape = loader.load_directory()
     elif args.mode == 'generate':
         print('generate mode')
     else:
         parser.print_help()
-    loader = Loader(
-        os.path.abspath('./dataset/wav'),
-        config['timestep'],
-        config['seq_len'],
-    )
-    print('========loading data========')
-    x, y, shape = loader.load_directory()
     #  print('========building models========')
     #  model = build_seq2seq(shape[1], shape[2], 64, depth=3)
     #  print('========training========')
