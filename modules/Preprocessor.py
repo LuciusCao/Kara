@@ -62,6 +62,5 @@ class Preprocessor:
         for each_mp3 in self.target_files:
             self._convert_mp3_to_wav(each_mp3)
             i += 1
-        print (i, 'files have been converted')
         self._remove_tmp()
-        return i
+        return i, self.target_files

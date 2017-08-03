@@ -13,7 +13,8 @@ if __name__ == '__main__':
         parser.print_help()
     elif args.mode == 'prepare':
         preprocessor = Preprocessor(config['dataset_root'])
-        preprocessor.convert_all()
+        num_files, target_list = preprocessor.convert_all()
+        print(num_files, 'has been converted')
     elif args.mode == 'train':
         loader = Loader(
             config['input_wav'],
