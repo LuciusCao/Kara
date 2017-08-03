@@ -4,8 +4,9 @@ import os
 
 
 class Loader:
-    def __init__(self, target_dir, timestep, seq):
-        self.target_dir = target_dir
+    def __init__(self, input_dir, saved_data, timestep, seq):
+        self.input_dir = input_dir
+        self.saved_data = saved_data
         self.timestep = timestep
         self.seq = seq
         self.fft_seq = self.seq * 2
@@ -39,7 +40,7 @@ class Loader:
             fft_data.append(target_block)
         return fft_data
 
-    def _load_training_data(self, wav_file):
+    def _load_one_wav(self, wav_file):
         np_arr = self._read_wav_to_np(wav_file)
         x = self._convert_np_audio_to_block(np_arr)
         y = x[1:]
@@ -56,18 +57,38 @@ class Loader:
             cur_seq += self.timestep
         return train_x, train_y
 
+    def _save_data_to_file(self, x, y):
+        np.save(x, self.saved_data['x'])
+        np.save(y, self.saved_data['y'])
+        return
+
+    def _load_data_from_file(self):
+        return np.load(self.saved_data['x']), np.load(self.saved_data['y'])
+
     def load_directory(self):
-        file_list = os.listdir(self.target_dir)
+        file_list = os.listdir(self.input_dir)
         wav_list = [item for item in file_list if item.endswith('wav')]
         train_x = []
         train_y = []
         for wav_file in wav_list:
-            wavfile_path = os.path.join(self.target_dir, wav_file)
-            x, y = self._load_training_data(wavfile_path)
+            wavfile_path = os.path.join(self.input_dir, wav_file)
+            x, y = self._load_one_wav(wavfile_path)
             train_x.extend(x)
             train_y.extend(y)
         train_x = np.array(train_x)
         train_y = np.array(train_y)
         num_examples = len(train_x)
-        shape = (num_examples, self.timestep, self.fft_seq)
-        return train_x, train_y, shape
+        self._save_data_to_file(train_x, train_y)
+        return train_x, train_y
+
+    def load_training_data(self, force_reload=False):
+        if force_reload == True:
+            x, y = self.load_directory()
+            return x, y
+        try:
+            x, y = self._load_data_from_file()
+            print('load from file')
+        except FileNotFoundError:
+            x, y = self.load_directory()
+            print('load from directory')
+        return x, y

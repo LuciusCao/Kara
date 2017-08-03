@@ -12,18 +12,17 @@ if __name__ == '__main__':
     if args.mode is None:
         parser.print_help()
     elif args.mode == 'prepare':
-        dataset_path = os.path.join(config['project_root'], 'dataset')
-        preprocessor = Preprocessor(dataset_path)
+        preprocessor = Preprocessor(config['dataset_root'])
         preprocessor.convert_all()
     elif args.mode == 'train':
-        print('trainning mode')
         loader = Loader(
-            os.path.abspath('./dataset/wav'),
+            config['input_wav'],
+            config['saved_data'],
             config['timestep'],
             config['seq_len'],
         )
         print('========loading data========')
-        x, y, shape = loader.load_directory()
+        x, y = loader.load_training_data()
     elif args.mode == 'generate':
         print('generate mode')
     else:

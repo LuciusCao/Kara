@@ -7,11 +7,11 @@ class Preprocessor:
     Read dataset path and convert all mp3 files to wav files
     make sure your dateset directory will have at least a mp3 folder
     '''
-    def __init__(self, dataset_path, sample_rate=44100):
+    def __init__(self, dataset_root, sample_rate=44100):
         self.path = {
-            'mp3': os.path.abspath(dataset_path+'/mp3'),
-            'tmp': os.path.abspath(dataset_path+'/tmp'),
-            'wav': os.path.abspath(dataset_path+'/wav'),
+            'mp3': os.path.abspath(dataset_root+'/mp3'),
+            'tmp': os.path.abspath(dataset_root+'/tmp'),
+            'wav': os.path.abspath(dataset_root+'/wav'),
         }
         self._path_checker()
         self.sample_rate = sample_rate
