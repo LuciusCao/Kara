@@ -77,12 +77,11 @@ class Loader:
             train_y.extend(y)
         train_x = np.array(train_x)
         train_y = np.array(train_y)
-        num_examples = len(train_x)
         self._save_data_to_file(train_x, train_y)
         return train_x, train_y
 
     def load_training_data(self, force_reload=False):
-        if force_reload == True:
+        if force_reload is True:
             x, y = self.load_directory()
             return x, y
         try:
