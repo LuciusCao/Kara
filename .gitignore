@@ -3,6 +3,7 @@
 *.swp
 *.h5
 *.zip
+*.npy
 /.python-version
 
 __pycache__/
