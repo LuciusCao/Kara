@@ -16,7 +16,7 @@ parser_train = subparsers.add_parser('train',
                                      model',
                                      help='train your model')
 parser_train.add_argument('--reload', action='store_true', dest='reload_dir',
-                          help='force reload all music from your dataset/wav')
+                          help='force to reload all music from your dataset')
 parser_train.add_argument('--rebuild', action='store_true', dest='rebuild',
                           help='force to rebuild and train the model from \
                           scratch')
