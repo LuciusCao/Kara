@@ -15,9 +15,8 @@ parser_train = subparsers.add_parser('train',
                                      description='Training module for the \
                                      model',
                                      help='train your model')
-parser_train.add_argument('--input', type=str,
-                          metavar='dir',
-                          help='specify your input audio directory')
+parser_train.add_argument('--reload', action='store_true', dest='reload_dir',
+                          help='force reload all music from your dataset/wav')
 parser_generate = subparsers.add_parser('generate',
                                         help='generate results based on \
                                         your model')

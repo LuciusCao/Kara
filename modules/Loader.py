@@ -83,6 +83,7 @@ class Loader:
     def load_training_data(self, force_reload=False):
         if force_reload is True:
             x, y = self.load_directory()
+            print('force reloaded')
             return x, y
         try:
             x, y = self._load_data_from_file()

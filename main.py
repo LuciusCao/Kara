@@ -23,7 +23,8 @@ if __name__ == '__main__':
             config['seq_len'],
         )
         print('========loading data========')
-        x, y = loader.load_training_data()
+        print(args.reload_dir)
+        x, y = loader.load_training_data(force_reload=args.reload_dir)
     elif args.mode == 'generate':
         print('generate mode')
     else:
