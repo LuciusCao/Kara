@@ -3,7 +3,7 @@ from modules.loader import Loader
 #  from modules.writer import Writer
 #  from modules.model import build_basic, build_td_basic, build_seq2seq
 from config import config
-from parser import parser, parser_train, parser_generate, parser_prepare
+from parser import parser
 import os
 
 
