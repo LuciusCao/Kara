@@ -17,6 +17,9 @@ parser_train = subparsers.add_parser('train',
                                      help='train your model')
 parser_train.add_argument('--reload', action='store_true', dest='reload_dir',
                           help='force reload all music from your dataset/wav')
+parser_train.add_argument('--rebuild', action='store_true', dest='rebuild',
+                          help='force to rebuild and train the model from \
+                          scratch')
 parser_generate = subparsers.add_parser('generate',
                                         help='generate results based on \
                                         your model')
