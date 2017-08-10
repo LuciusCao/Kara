@@ -38,9 +38,11 @@ if __name__ == '__main__':
                 model.load_weights(config['model_path'])
                 print('model loaded from {}'.format(config['model_path']))
             except ValueError as e:
-                print(e)
+                print('Unexpected data shape. ' \
+                      'Check you input data and your model')
             except OSError as e:
-                print(e)
+                print('Cannot find model weights. ' \
+                      'Will train from scratch')
 
             print('========training========')
             model.fit(x, y,
@@ -48,7 +50,7 @@ if __name__ == '__main__':
                         epochs=config['epochs'])
 
         print('========saving model weights========')
-        model.save_weights('trained_weights.h5')
+        model.save_weights(config['model_path'])
     elif args.mode == 'generate':
         print('generate mode')
     else:

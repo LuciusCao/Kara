@@ -87,8 +87,8 @@ class Loader:
             return x, y
         try:
             x, y = self._load_data_from_file()
-            print('load from file')
+            print('load training data from npy file')
         except FileNotFoundError:
             x, y = self.load_directory()
-            print('load from directory')
+            print('load raw audio from directory')
         return x, y
