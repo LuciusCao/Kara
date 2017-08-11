@@ -31,10 +31,9 @@ class Loader:
         return data
 
     def _fourier_transform(self, data):
-        row = len(data)
         fft_data = []
-        for i in range(row):
-            fft_block = np.fft.fft(data[i])
+        for block in data:
+            fft_block = np.fft.fft(block)
             target_block = np.concatenate((np.real(fft_block),
                                            np.imag(fft_block)))
             fft_data.append(target_block)
