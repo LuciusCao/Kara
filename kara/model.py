@@ -4,6 +4,7 @@
 #  from keras.layers import Activation, Dense
 from keras.optimizers import RMSprop
 from seq2seq.models import Seq2Seq
+from config import config
 
 
 def build_seq2seq(time_step, input_dim, hidden_dim, depth=1, batch_size=None):
@@ -13,7 +14,7 @@ def build_seq2seq(time_step, input_dim, hidden_dim, depth=1, batch_size=None):
                     output_dim=input_dim,
                     depth=depth)
     optimizer = RMSprop(lr=0.00001, rho=0.9, epsilon=1e-08, decay=0.0)
-    model.compile(loss='mean_absolute_error', optimizer=optimizer)
+    model.compile(loss=config['loss'], optimizer=optimizer)
     return model
 
 #  def build_basic(time_step, input_dim):

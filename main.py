@@ -1,6 +1,6 @@
-from kara.writer import Writer
 from config import config
 from parser import parser
+import numpy as np
 import os
 
 
@@ -12,7 +12,8 @@ if __name__ == '__main__':
     elif args.mode == 'prepare':
         from kara.preprocessor import Preprocessor
 
-        preprocessor = Preprocessor(config['dataset_root'])
+        preprocessor = Preprocessor(config['dataset_root'],
+                                    config['sample_rate'])
         num_files, target_list = preprocessor.convert_all()
         print(num_files, 'has been converted')
 
@@ -28,14 +29,18 @@ if __name__ == '__main__':
         )
         print('========loading data========')
         x, y = loader.load_training_data(force_reload=args.reload_dir)
-        shape = x.shape
+        min_max = np.load(config['saved_data']['min_max'])
+        mini = min_max[0]
+        maxi = min_max[1]
+        norm_x = (x - mini) / (maxi - mini)
+        norm_y = (x - mini) / (maxi - mini)
 
         print('========building models========')
         model = build_seq2seq(config['timestep'],
                               config['seq_len'] * 2,
                               32, depth=config['depth'])
         if args.rebuild is True:
-            model.fit(x, y,
+            model.fit(norm_x, norm_y,
                       batch_size=config['batch_size'],
                       epochs=config['epochs'])
         else:
@@ -50,7 +55,7 @@ if __name__ == '__main__':
                       'Will train from scratch')
 
             print('========training========')
-            model.fit(x, y,
+            model.fit(norm_x, norm_y,
                       batch_size=config['batch_size'],
                       epochs=config['epochs'])
 
@@ -59,17 +64,46 @@ if __name__ == '__main__':
 
     elif args.mode == 'generate':
         from kara.model import build_seq2seq
+        from kara.writer import Writer
+
+        min_max = np.load(config['saved_data']['min_max'])
+        mini = min_max[0]
+        maxi = min_max[1]
+
+        sample_length = args.length
+        sample_frequency = sample_length * config['sample_rate']
+        num_iter = sample_frequency // config['seq_len']
 
         model = build_seq2seq(config['timestep'],
                               config['seq_len'] * 2,
                               32, depth=config['depth'])
-        try:
-            model.load_weights(config['model_path'])
-            print('model loaded from {}'.format(config['model_path']))
-        except ValueError as e:
-            raise ValueError
-        except OSError as e:
-            raise OSError
+
+        model.load_weights(config['model_path'])
+        init_sample = np.load(config['saved_data']['init_sample'])
+        print('model loaded from {}'.format(config['model_path']))
+
+        generated_sample = []
+        cur_iter = 0
+
+        while cur_iter < num_iter:
+            try:
+                generated_sample.append(model.predict(generated_sample[-1]))
+            except IndexError:
+                generated_sample.append(model.predict(init_sample))
+            cur_iter += 1
+
+        generated_sample = np.array(generated_sample)
+        shape = generated_sample.shape
+        new_shape = (shape[0], shape[2], shape[3])
+        generated_sample = generated_sample.reshape(new_shape)
+        generated_sample = generated_sample * (maxi - mini) + mini
+        generated_sample = np.concatenate(generated_sample)
+
+        writer = Writer(generated_sample,
+                        config['out_wav'],
+                        config['sample_rate'])
+        writer.write_fft_to_wav()
+
     else:
         parser.print_help()
     #  print('========Done!========')
