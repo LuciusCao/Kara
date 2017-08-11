@@ -58,8 +58,10 @@ class Loader:
         return train_x, train_y
 
     def _save_data_to_file(self, x, y):
+        m = len(x)
         np.save(self.saved_data['x'], x)
         np.save(self.saved_data['y'], y)
+        np.save(self.saved_data['init_sample'], x[m//2:m//2+1, ])
         return
 
     def _load_data_from_file(self):
