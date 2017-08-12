@@ -1,4 +1,4 @@
-from config import config
+from config import get_config
 from parser import parser
 import numpy as np
 import os
@@ -6,6 +6,7 @@ import os
 
 if __name__ == '__main__':
     args = parser.parse_args()
+    config = get_config(epochs=args.epochs)
     if args.mode is None:
         parser.print_help()
 
@@ -38,7 +39,7 @@ if __name__ == '__main__':
         print('========building models========')
         model = build_seq2seq(config['timestep'],
                               config['seq_len'] * 2,
-                              32, depth=config['depth'])
+                              32, config['loss'], depth=config['depth'])
         if args.rebuild is True:
             model.fit(norm_x, norm_y,
                       batch_size=config['batch_size'],
@@ -76,7 +77,7 @@ if __name__ == '__main__':
 
         model = build_seq2seq(config['timestep'],
                               config['seq_len'] * 2,
-                              32, depth=config['depth'])
+                              32, config['loss'], depth=config['depth'])
 
         model.load_weights(config['model_path'])
         init_sample = np.load(config['saved_data']['init_sample'])

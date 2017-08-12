@@ -2,11 +2,11 @@ import argparse
 
 
 parser = argparse.ArgumentParser(prog='kara',
-                                 description='An experiment that trains \
-                                 models to learn to compose music',
-                                 epilog='If you have any trouble feel free \
-                                 to send a ticket on Github, or send email \
-                                 to lucius.cao@gmail.com')
+                                 description='An experiment that trains'
+                                 'models to learn to compose music',
+                                 epilog='If you have any trouble feel free'
+                                 'to send a ticket on Github, or send email'
+                                 'to lucius.cao@gmail.com')
 subparsers = parser.add_subparsers(metavar='subcommand', dest='mode')
 parser_prepare = subparsers.add_parser('prepare',
                                        help='run this command to prepare your \
@@ -20,6 +20,8 @@ parser_train.add_argument('--reload', action='store_true', dest='reload_dir',
 parser_train.add_argument('--rebuild', action='store_true', dest='rebuild',
                           help='force to rebuild and train the model from \
                           scratch')
+parser_train.add_argument('--epochs', type=int,
+                          help='number of epochs to train')
 parser_generate = subparsers.add_parser('generate',
                                         help='generate results based on \
                                         your model')
