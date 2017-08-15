@@ -20,7 +20,7 @@ parser_train.add_argument('--reload', action='store_true', dest='reload_dir',
 parser_train.add_argument('--rebuild', action='store_true', dest='rebuild',
                           help='force to rebuild and train the model from \
                           scratch')
-parser_train.add_argument('--epochs', type=int,
+parser_train.add_argument('--epochs', type=int, default=5,
                           help='number of epochs to train')
 parser_generate = subparsers.add_parser('generate',
                                         help='generate results based on \

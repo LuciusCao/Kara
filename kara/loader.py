@@ -44,15 +44,15 @@ class Loader:
         x = self._convert_np_audio_to_block(np_arr)
         y = x[1:]
         y.append(np.zeros(self.seq))
-        fft_x = self._fourier_transform(x)
-        fft_y = self._fourier_transform(y)
+        #  fft_x = self._fourier_transform(x)
+        #  fft_y = self._fourier_transform(y)
         cur_seq = 0
         total_seq = len(x)
         train_x = []
         train_y = []
         while cur_seq + self.timestep < total_seq:
-            train_x.append(fft_x[cur_seq:cur_seq+self.timestep])
-            train_y.append(fft_y[cur_seq:cur_seq+self.timestep])
+            train_x.append(x[cur_seq:cur_seq+self.timestep])
+            train_y.append(y[cur_seq:cur_seq+self.timestep])
             cur_seq += self.timestep
         return train_x, train_y
 

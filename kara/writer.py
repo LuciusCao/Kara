@@ -9,8 +9,8 @@ class Writer:
         self.filepath = filepath
 
     def write_fft_to_wav(self):
-        original_block = self._de_fourier_transform(self.datablock)
-        data = self._convert_block_to_np_audio(original_block)
+        #  original_block = self._de_fourier_transform(self.datablock)
+        data = self._convert_block_to_np_audio(self.datablock)
         self._write_np_to_wav(data, self.filepath)
         return
 

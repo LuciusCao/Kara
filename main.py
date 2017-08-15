@@ -38,7 +38,7 @@ if __name__ == '__main__':
 
         print('========building models========')
         model = build_seq2seq(config['timestep'],
-                              config['seq_len'] * 2,
+                              config['seq_len'],
                               32, config['loss'], depth=config['depth'])
         if args.rebuild is True:
             model.fit(norm_x, norm_y,
@@ -76,7 +76,7 @@ if __name__ == '__main__':
         num_iter = sample_frequency // config['seq_len']
 
         model = build_seq2seq(config['timestep'],
-                              config['seq_len'] * 2,
+                              config['seq_len'],
                               32, config['loss'], depth=config['depth'])
 
         model.load_weights(config['model_path'])
